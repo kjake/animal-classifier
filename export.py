@@ -87,7 +87,36 @@ def export_openvino():
         json.dump(model_config, f)
 
 def export_coreml():
-    import coremltools as ct
+    import sys
+
+    supported_python_min = (3, 10)
+    supported_python_max = (3, 12)
+    supported_torch_minors = {(2, 1), (2, 2), (2, 3)}
+
+    if not (supported_python_min <= sys.version_info[:2] <= supported_python_max):
+        raise RuntimeError(
+            "Core ML export requires Python 3.10–3.12. "
+            "Please use a compatible environment (e.g., Python 3.11 with coremltools 7.x)."
+        )
+
+    torch_version_parts = torch.__version__.split("+", maxsplit=1)[0].split(".")
+    torch_version = tuple(int(part) for part in torch_version_parts[:2] if part.isdigit())
+    if torch_version not in supported_torch_minors:
+        raise RuntimeError(
+            "Core ML export requires a supported PyTorch version. "
+            "Known-good: PyTorch 2.1–2.3 with coremltools 7.x."
+        )
+
+    try:
+        import coremltools as ct
+    except Exception as exc:
+        if "libcoremlpython" in str(exc):
+            raise RuntimeError(
+                "Core ML export failed to import coremltools due to missing libcoremlpython. "
+                "Reinstall coremltools with a compatible Python version or use the official "
+                "coremltools installer/conda package."
+            ) from exc
+        raise
 
     path = "models/coreml"
     os.system(f"rm -rf {path}")

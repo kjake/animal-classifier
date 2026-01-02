@@ -11,6 +11,12 @@ https://huggingface.co/datasets/DrBimmer/vehicle-classification
 
 ## Quickstart
 
+0. Install dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
 1. Create the dataset on disk:
 
 ```bash
@@ -33,3 +39,17 @@ python infer.py path/to/image.jpg --checkpoint checkpoints/best_model.pth
 
 The training script expects an ImageFolder layout with `train/` and `test/` splits. If the Hugging Face
 Dataset only provides a train split, the export script will create a test split automatically.
+
+## Core ML export requirements
+
+Core ML export relies on Core ML Tools and currently works best with:
+
+* Python 3.10–3.12
+* PyTorch 2.1–2.3
+* coremltools 7.x
+
+Known-good install example:
+
+```bash
+python -m pip install -r requirements.txt
+```
