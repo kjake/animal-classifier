@@ -1,9 +1,9 @@
-bird-species-dataset
 .venv/
 *.pnnx.*
 model.pt
 checkpoints*
-nabirds/
-nabirds-original
-nabirds-dataset
+vehicle/
+vehicle-original
+vehicle-dataset
 __pycache__/
+.DS_Store

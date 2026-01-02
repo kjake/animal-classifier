@@ -7,10 +7,16 @@ import torch.optim as optim
 import os
 import argparse
 import json
+from contextlib import nullcontext
+
 
 # Set device
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+elif torch.backends.mps.is_available():
+    device = torch.device("mps")
+else:
+    device = torch.device("cpu")
 
 # --- Add this at the top ---
 parser = argparse.ArgumentParser()
@@ -70,13 +76,14 @@ with open('classmap.json', 'w') as f:
     json.dump(idx_to_class, f, indent=4)
 
 # DataLoaders
-num_workers = os.cpu_count()
-train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=True, persistent_workers=True)
-val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=True, persistent_workers=True)
+# num_workers = os.cpu_count()
+num_workers = 0  # Set to 0 for compatibility
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=False, persistent_workers=False)
+val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=False, persistent_workers=False)
 
 # Model setup
 num_classes = len(train_dataset.classes)
-model = torchvision.models.resnet50(pretrained=True)
+model = torchvision.models.resnet50(weights='DEFAULT')
 
 # Replace final FC layer
 model.fc = nn.Linear(model.fc.in_features, num_classes)
@@ -89,7 +96,8 @@ if not args.resume:
         param.requires_grad = True
 
 # Multi-GPU support
-model = nn.DataParallel(model)
+if device.type == "cuda":
+    model = nn.DataParallel(model)
 model = model.to(device)
 
 # Loss and optimizer
@@ -110,8 +118,9 @@ if args.resume:
     for param_group in optimizer.param_groups:
         param_group['lr'] = 1e-5
 
-# Optional: mixed precision (requires PyTorch >=1.6 and CUDA)
-scaler = torch.amp.GradScaler()
+# Optional: mixed precision (CUDA only; MPS AMP is limited)
+use_amp = device.type == "cuda"
+scaler = torch.amp.GradScaler(enabled=use_amp)
 
 # Training + Validation loop
 best_val_loss = float('inf')
@@ -127,11 +136,12 @@ for epoch in range(num_epochs):
         optimizer.zero_grad()
 
         # Mixed precision (optional)
-        with torch.amp.autocast(device_type='cuda'):
+        autocast_context = torch.amp.autocast(device_type=device.type) if use_amp else nullcontext()
+        with autocast_context:
             outputs = model(inputs)
             loss = criterion(outputs, labels)
 
-        if True:
+        if use_amp:
             scaler.scale(loss).backward()
             scaler.step(optimizer)
             scaler.update()

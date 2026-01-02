@@ -6,4 +6,4 @@ fi
 
 . .venv/bin/activate
 # needed for dataset export and model export
-pip install datasets openvino coremltools ncnn pnnx onnx
+pip install datasets openvino coremltools ncnn pnnx onnx Pillow torch torchvision torchaudio transformers diffusers accelerate bitsandbytes numpy 

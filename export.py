@@ -5,14 +5,19 @@ from torch import nn
 from torchvision import models
 import numpy as np
 
-device = torch.device("cpu")
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+elif torch.backends.mps.is_available():
+    device = torch.device("mps")
+else:
+    device = torch.device("cpu")
 
 # Load class mapping
 with open('classmap.json', 'r') as f:
     idx_to_class = json.load(f)
 
 # Load model
-model = models.resnet50(pretrained=False)
+model = models.resnet50(weights='DEFAULT')
 num_classes = len(idx_to_class)
 model.fc = torch.nn.Linear(model.fc.in_features, num_classes)
 state_dict = torch.load("checkpoints/best_model.pth", map_location=device)
