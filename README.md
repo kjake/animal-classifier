@@ -1,10 +1,10 @@
-# Vehicle Classification Model
+# Animal Classification Model
 
-This vehicle classification model uses the DrBimmer vehicle classification dataset hosted on Hugging Face.
+This animal classification model uses the Animals dataset hosted on Hugging Face.
 
-https://huggingface.co/datasets/DrBimmer/vehicle-classification
+https://huggingface.co/datasets/Fr0styKn1ght/Animals
 
-* vehicle_dataset.py - Download the dataset from Hugging Face and export it to an ImageFolder layout for PyTorch.
+* animal_dataset.py - Download the dataset from Hugging Face and export it to an ImageFolder layout for PyTorch.
 * train.py - Simple ResNet50 trainer. Supports resume.
 * infer.py - Infer a single image given a checkpoint.
 * export.py - Export a model to OpenVINO, CoreML, ONNX, and NCNN.
@@ -20,13 +20,13 @@ python -m pip install -r requirements.txt
 1. Create the dataset on disk:
 
 ```bash
-python vehicle_dataset.py --output-dir vehicle-dataset
+python animal_dataset.py --output-dir animal-dataset
 ```
 
 2. Train the model:
 
 ```bash
-python train.py --data-dir vehicle-dataset
+python train.py --data-dir animal-dataset
 ```
 
 3. Run inference:
@@ -39,6 +39,8 @@ python infer.py path/to/image.jpg --checkpoint checkpoints/best_model.pth
 
 The training script expects an ImageFolder layout with `train/` and `test/` splits. If the Hugging Face
 Dataset only provides a train split, the export script will create a test split automatically.
+
+The training script writes a `classmap.json` file in the repo root for use with `infer.py`.
 
 ## Core ML export requirements
 

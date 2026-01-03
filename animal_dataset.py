@@ -23,7 +23,7 @@ def save_split(split, split_name, output_dir, label_names):
 
 
 def export_dataset(output_dir, test_size):
-    dataset = load_dataset("DrBimmer/vehicle-classification")
+    dataset = load_dataset("Fr0styKn1ght/Animals")
 
     if "train" not in dataset:
         split_name = next(iter(dataset.keys()))
@@ -43,8 +43,8 @@ def export_dataset(output_dir, test_size):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Export vehicle dataset to ImageFolder format.")
-    parser.add_argument("--output-dir", default="vehicle-dataset", help="Output directory for ImageFolder data")
+    parser = argparse.ArgumentParser(description="Export animal dataset to ImageFolder format.")
+    parser.add_argument("--output-dir", default="animal-dataset", help="Output directory for ImageFolder data")
     parser.add_argument("--test-size", type=float, default=0.2, help="Test split size when splitting train")
     args = parser.parse_args()
 
