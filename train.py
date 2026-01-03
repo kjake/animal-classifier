@@ -21,7 +21,7 @@ else:
 # --- Add this at the top ---
 parser = argparse.ArgumentParser()
 parser.add_argument('--resume', type=str, default=None, help='Path to checkpoint to resume from')
-parser.add_argument('--data-dir', type=str, default='vehicle-dataset', help='Path to ImageFolder dataset root')
+parser.add_argument('--data-dir', type=str, default='animal-dataset', help='Path to ImageFolder dataset root')
 args = parser.parse_args()
 
 # Hyperparameters

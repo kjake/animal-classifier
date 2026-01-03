@@ -2,8 +2,9 @@
 *.pnnx.*
 model.pt
 checkpoints*
-vehicle/
-vehicle-original
-vehicle-dataset
+animal/
+animal-original
+animal-dataset
+classmap.json
 __pycache__/
 .DS_Store
