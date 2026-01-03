@@ -5,6 +5,5 @@ checkpoints*
 animal/
 animal-original
 animal-dataset
-classmap.json
 __pycache__/
 .DS_Store

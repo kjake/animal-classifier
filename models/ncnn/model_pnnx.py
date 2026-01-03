@@ -118,9 +118,9 @@ class Model(nn.Module):
         self.convbn2d_52 = nn.Conv2d(bias=True, dilation=(1,1), groups=1, in_channels=512, kernel_size=(1,1), out_channels=2048, padding=(0,0), padding_mode='zeros', stride=(1,1))
         self.pnnx_unique_31 = nn.ReLU()
         self.avgpool = nn.AdaptiveAvgPool2d(output_size=(1,1))
-        self.fc = nn.Linear(bias=True, in_features=2048, out_features=16)
+        self.fc = nn.Linear(bias=True, in_features=2048, out_features=90)
 
-        archive = zipfile.ZipFile('models/ncnn/model.pnnx.bin', 'r')
+        archive = zipfile.ZipFile('/Users/kevin/Documents/GitHub/animal-classifier/models/ncnn/model.pnnx.bin', 'r')
         self.convbn2d_0.bias = self.load_pnnx_bin_as_parameter(archive, 'convbn2d_0.bias', (64), 'float32')
         self.convbn2d_0.weight = self.load_pnnx_bin_as_parameter(archive, 'convbn2d_0.weight', (64,3,7,7), 'float32')
         self.convbn2d_1.bias = self.load_pnnx_bin_as_parameter(archive, 'convbn2d_1.bias', (64), 'float32')
@@ -227,8 +227,8 @@ class Model(nn.Module):
         self.convbn2d_51.weight = self.load_pnnx_bin_as_parameter(archive, 'convbn2d_51.weight', (512,512,3,3), 'float32')
         self.convbn2d_52.bias = self.load_pnnx_bin_as_parameter(archive, 'convbn2d_52.bias', (2048), 'float32')
         self.convbn2d_52.weight = self.load_pnnx_bin_as_parameter(archive, 'convbn2d_52.weight', (2048,512,1,1), 'float32')
-        self.fc.bias = self.load_pnnx_bin_as_parameter(archive, 'fc.bias', (16), 'float32')
-        self.fc.weight = self.load_pnnx_bin_as_parameter(archive, 'fc.weight', (16,2048), 'float32')
+        self.fc.bias = self.load_pnnx_bin_as_parameter(archive, 'fc.bias', (90), 'float32')
+        self.fc.weight = self.load_pnnx_bin_as_parameter(archive, 'fc.weight', (90,2048), 'float32')
         archive.close()
 
     def load_pnnx_bin_as_parameter(self, archive, key, shape, dtype, requires_grad=True):
@@ -376,7 +376,7 @@ def export_torchscript():
     v_0 = torch.rand(1, 3, 224, 224, dtype=torch.float)
 
     mod = torch.jit.trace(net, v_0)
-    mod.save("models/ncnn/model_pnnx.py.pt")
+    mod.save("/Users/kevin/Documents/GitHub/animal-classifier/models/ncnn/model_pnnx.py.pt")
 
 def export_onnx():
     net = Model()
@@ -386,7 +386,7 @@ def export_onnx():
     torch.manual_seed(0)
     v_0 = torch.rand(1, 3, 224, 224, dtype=torch.float)
 
-    torch.onnx.export(net, v_0, "models/ncnn/model_pnnx.py.onnx", export_params=True, operator_export_type=torch.onnx.OperatorExportTypes.ONNX_ATEN_FALLBACK, opset_version=13, input_names=['in0'], output_names=['out0'])
+    torch.onnx.export(net, v_0, "/Users/kevin/Documents/GitHub/animal-classifier/models/ncnn/model_pnnx.py.onnx", export_params=True, operator_export_type=torch.onnx.OperatorExportTypes.ONNX_ATEN_FALLBACK, opset_version=13, input_names=['in0'], output_names=['out0'])
 
 def export_pnnx():
     net = Model()
@@ -397,7 +397,7 @@ def export_pnnx():
     v_0 = torch.rand(1, 3, 224, 224, dtype=torch.float)
 
     import pnnx
-    pnnx.export(net, "models/ncnn/model_pnnx.py.pt", v_0)
+    pnnx.export(net, "/Users/kevin/Documents/GitHub/animal-classifier/models/ncnn/model_pnnx.py.pt", v_0)
 
 def export_ncnn():
     export_pnnx()

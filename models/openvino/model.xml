@@ -5194,10 +5194,10 @@
 			</output>
 		</layer>
 		<layer id="283" name="fc.weight" type="Const" version="opset1">
-			<data element_type="f32" shape="16, 2048" offset="93925920" size="131072" />
+			<data element_type="f32" shape="90, 2048" offset="93925920" size="737280" />
 			<output>
 				<port id="0" precision="FP32" names="fc.weight">
-					<dim>16</dim>
+					<dim>90</dim>
 					<dim>2048</dim>
 				</port>
 			</output>
@@ -5210,50 +5210,50 @@
 					<dim>2048</dim>
 				</port>
 				<port id="1" precision="FP32">
-					<dim>16</dim>
+					<dim>90</dim>
 					<dim>2048</dim>
 				</port>
 			</input>
 			<output>
 				<port id="2" precision="FP32">
 					<dim>1</dim>
-					<dim>16</dim>
+					<dim>90</dim>
 				</port>
 			</output>
 		</layer>
 		<layer id="285" name="Constant_3345" type="Const" version="opset1">
-			<data element_type="f32" shape="1, 16" offset="94056992" size="64" />
+			<data element_type="f32" shape="1, 90" offset="94663200" size="360" />
 			<output>
 				<port id="0" precision="FP32">
 					<dim>1</dim>
-					<dim>16</dim>
+					<dim>90</dim>
 				</port>
 			</output>
 		</layer>
-		<layer id="286" name="495" type="Add" version="opset1">
+		<layer id="286" name="logits" type="Add" version="opset1">
 			<data auto_broadcast="numpy" />
 			<input>
 				<port id="0" precision="FP32">
 					<dim>1</dim>
-					<dim>16</dim>
+					<dim>90</dim>
 				</port>
 				<port id="1" precision="FP32">
 					<dim>1</dim>
-					<dim>16</dim>
+					<dim>90</dim>
 				</port>
 			</input>
 			<output>
-				<port id="2" precision="FP32" names="495">
+				<port id="2" precision="FP32" names="logits">
 					<dim>1</dim>
-					<dim>16</dim>
+					<dim>90</dim>
 				</port>
 			</output>
 		</layer>
-		<layer id="287" name="495/sink_port_0" type="Result" version="opset1" output_names="495">
+		<layer id="287" name="logits/sink_port_0" type="Result" version="opset1" output_names="logits">
 			<input>
 				<port id="0" precision="FP32">
 					<dim>1</dim>
-					<dim>16</dim>
+					<dim>90</dim>
 				</port>
 			</input>
 		</layer>
