@@ -5194,10 +5194,10 @@
 			</output>
 		</layer>
 		<layer id="283" name="fc.weight" type="Const" version="opset1">
-			<data element_type="f32" shape="90, 2048" offset="93925920" size="737280" />
+			<data element_type="f32" shape="31, 2048" offset="93925920" size="253952" />
 			<output>
 				<port id="0" precision="FP32" names="fc.weight">
-					<dim>90</dim>
+					<dim>31</dim>
 					<dim>2048</dim>
 				</port>
 			</output>
@@ -5210,23 +5210,23 @@
 					<dim>2048</dim>
 				</port>
 				<port id="1" precision="FP32">
-					<dim>90</dim>
+					<dim>31</dim>
 					<dim>2048</dim>
 				</port>
 			</input>
 			<output>
 				<port id="2" precision="FP32">
 					<dim>1</dim>
-					<dim>90</dim>
+					<dim>31</dim>
 				</port>
 			</output>
 		</layer>
 		<layer id="285" name="Constant_3345" type="Const" version="opset1">
-			<data element_type="f32" shape="1, 90" offset="94663200" size="360" />
+			<data element_type="f32" shape="1, 31" offset="94179872" size="124" />
 			<output>
 				<port id="0" precision="FP32">
 					<dim>1</dim>
-					<dim>90</dim>
+					<dim>31</dim>
 				</port>
 			</output>
 		</layer>
@@ -5235,17 +5235,17 @@
 			<input>
 				<port id="0" precision="FP32">
 					<dim>1</dim>
-					<dim>90</dim>
+					<dim>31</dim>
 				</port>
 				<port id="1" precision="FP32">
 					<dim>1</dim>
-					<dim>90</dim>
+					<dim>31</dim>
 				</port>
 			</input>
 			<output>
 				<port id="2" precision="FP32" names="logits">
 					<dim>1</dim>
-					<dim>90</dim>
+					<dim>31</dim>
 				</port>
 			</output>
 		</layer>
@@ -5253,7 +5253,7 @@
 			<input>
 				<port id="0" precision="FP32">
 					<dim>1</dim>
-					<dim>90</dim>
+					<dim>31</dim>
 				</port>
 			</input>
 		</layer>
